@@ -12,6 +12,7 @@
     "migrate:undo": "sequelize db:migrate:undo",
     "refreshdb": "sequelize db:migrate:undo:all && sequelize db:migrate",
     "clean": "rm -rf dist",
+    "heroku-postbuild": "npm run build && npm run migrate",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "pretest": "rm -rf ./server/database_test.sqlite3 && NODE_ENV=test npm run refreshdb",
     "test": "NODE_ENV=test nyc --reporter=html --reporter=text --require @babel/register --env=test mocha --timeout 10000 ./server/tests/**/*.test.js --exit"
@@ -52,9 +53,11 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.8.12",
     "sequelize-cli": "^5.5.0",
+    "sinon": "^7.3.2",
     "sqlite3": "^4.0.9",
     "swagger-jsdoc": "^3.2.9",
-    "swagger-ui-express": "^4.0.6"
+    "swagger-ui-express": "^4.0.6",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -79,7 +82,9 @@
     "exclude": [
       "**/tests/**",
       "server/migrations",
-      "server/config"
+      "server/config",
+      "server/helpers/validationResponse.js",
+      "server/helpers/logger.js"
     ]
   }
 }
