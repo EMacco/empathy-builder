@@ -10,9 +10,9 @@ const host = process.env.HOST_NAME || 'localhost:3000';
 // Swagger Definitions
 const swaggerDefinition = {
   info: {
-    title: 'MentorMe',
+    title: 'Empathy-Builder',
     version: '1.0.0',
-    description: 'MentorMe lets you lend your business skills to an entrepreneurs across the globe.',
+    description: 'Empathy-Builder is an empathy and awareness-building calculator to help those not experiencing violence understand how much it would cost for them to leave their lives'
   },
   host,
   basePath: '/api/v1'
@@ -21,7 +21,7 @@ const swaggerDefinition = {
 // Options for the swagger docs
 const options = {
   swaggerDefinition,
-  apis: ['/swagger.yaml']
+  apis: ['./swagger.yaml']
 };
 
 // Initialize swagger-jsdoc

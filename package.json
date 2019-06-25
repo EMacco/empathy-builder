@@ -52,9 +52,11 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.8.12",
     "sequelize-cli": "^5.5.0",
+    "sinon": "^7.3.2",
     "sqlite3": "^4.0.9",
     "swagger-jsdoc": "^3.2.9",
-    "swagger-ui-express": "^4.0.6"
+    "swagger-ui-express": "^4.0.6",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -79,7 +81,9 @@
     "exclude": [
       "**/tests/**",
       "server/migrations",
-      "server/config"
+      "server/config",
+      "server/helpers/validationResponse.js",
+      "server/helpers/logger.js"
     ]
   }
 }
