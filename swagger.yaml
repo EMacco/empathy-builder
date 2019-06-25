@@ -1,0 +1,103 @@
+swagger: "2.0"
+info:
+  description: "Empathy Builder"
+  version: "1.0.0"
+  title: "Empathy Builder"
+  license:
+    name: "MIT"
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+basePath: "/api/v1"
+tags:
+- name: "users"
+  description: "User operations"
+schemes:
+  - "https"
+  - "http"
+paths:
+  /users:
+    post:
+      tags:
+      - "users"
+      summary: "Create user"
+      description: "Creates a new user in the application"
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - in: "formData"
+        name: "firstname"
+        description: "The first name"
+        required: true
+        type: "string"
+        format: "text"
+        minLength: 2
+        maxLength: 10
+      - in: "formData"
+        name: "lastname"
+        description: "The last name"
+        required: true
+        type: "string"
+        format: "text"
+        minLength: 2
+        maxLength: 10
+      - in: "formData"
+        name: "phone"
+        description: "The phone number"
+        required: true
+        type: "string"
+        format: "text"
+        minLength: 11
+        maxLength: 14
+      - in: "formData"
+        name: "email"
+        description: "The unique user email"
+        required: true
+        type: "string"
+        format: "email"
+        minLength: 5
+        maxLength: 255
+      - in: "formData"
+        name: "password"
+        description: "The user password"
+        required: true
+        type: "string"
+        format: "password"
+        minLength: 5
+        maxLength: 255
+      responses:
+        201:
+          description: "User created successfully"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        400:
+          description: "Invalid email/password supplied"
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      firstname:
+        type: "string"
+      lastname:
+        type: "string"
+      phone:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      active:
+        type: boolean
+  ApiResponse:
+    type: "object"
+    properties:
+      status:
+        type: "integer"
+        format: "int32"
+      data:
+        type: "object"
+        items:
+          type: "object"
