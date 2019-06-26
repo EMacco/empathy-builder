@@ -4,9 +4,20 @@
  */
 
 const userExtractor = (user, token) => {
-  const { email, id, username } = user;
+  const {
+    email,
+    id,
+    firstname,
+    lastname,
+    phone
+  } = user;
   return {
-    id, email, username, token,
+    id,
+    firstname,
+    lastname,
+    phone,
+    email,
+    token,
   };
 };
 
