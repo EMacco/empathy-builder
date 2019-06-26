@@ -54,6 +54,38 @@ class ExpensesController {
       next(err);
     }
   }
+
+  /**
+   * Fetch a monthly budget
+   * @async
+   * @param  {object} req - Request object
+   * @param {object} res - Response object
+   * @param {object} next The next middleware
+   * @return {json} Returns json object
+   * @static
+   */
+  static async fetchMonthlyBudget(req, res, next) {
+    try {
+      const monthlyExpenses = await MonthlyExpense.findAll({
+        where: { userId: req.decoded.id },
+        attributes: ['item', 'cost']
+      });
+
+      const totalCost = monthlyExpenses.reduce(
+        (partialSum, a) => partialSum + Number(a.get().cost),
+        0
+      );
+
+      return Response.success(
+        res,
+        201,
+        { monthlyExpenses, totalCost },
+        'Monthly budget successfully retrieved'
+      );
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default ExpensesController;

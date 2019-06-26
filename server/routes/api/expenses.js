@@ -7,5 +7,6 @@ import ExpensesController from '@controllers/expenses';
 const budgetRouter = express.Router();
 
 budgetRouter.post('/monthly', Token.authorize, trim, ExpensesController.createMonthlyBudget);
+budgetRouter.get('/monthly', Token.authorize, ExpensesController.fetchMonthlyBudget);
 
 export default budgetRouter;
