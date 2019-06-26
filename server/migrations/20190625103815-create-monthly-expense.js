@@ -20,7 +20,7 @@ module.exports = {
       allowNull: false
     },
     cost: {
-      type: Sequelize.STRING,
+      type: Sequelize.DECIMAL,
       allowNull: false
     },
     createdAt: {

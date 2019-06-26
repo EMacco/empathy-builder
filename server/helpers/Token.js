@@ -58,14 +58,6 @@ class Token {
         return Response.error(res, 401, 'Invalid Token Provided');
       }
 
-      const droppedToken = await DroppedToken.findOne({
-        where: {
-          token
-        }
-      });
-      if (droppedToken) {
-        return Response.error(res, 401, 'Invalid Token Provided');
-      }
       req.user = user;
       req.decoded = decoded;
       next();
