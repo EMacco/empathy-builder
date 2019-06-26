@@ -1,10 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Relocation = sequelize.define('Relocation', {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      allowNull: false
-    },
     userId: {
       type: DataTypes.UUID,
       allowNull: false
@@ -14,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     cost: {
-      type: DataTypes.STRING,
+      type: DataTypes.DOUBLE,
       allowNull: false
     }
   }, {});
