@@ -1,5 +1,6 @@
 import express from 'express';
 import debug from 'debug';
+import cors from 'cors';
 import logger from 'morgan';
 import { config } from 'dotenv';
 import bodyParser from 'body-parser';
@@ -19,6 +20,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+const corsOptions = {
+  origin: '*',
+  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  next();
+});
+app.use(cors(corsOptions));
 
 app.use('/api/v1', apis);
 
