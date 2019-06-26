@@ -6,6 +6,7 @@ import { config } from 'dotenv';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import apis from '@routes/api';
+import errorHandler from '@middlewares/errorHandler';
 import swaggerSpec from './config/swagger';
 
 const debugged = debug('app');
@@ -38,6 +39,12 @@ app.use('/api/v1', apis);
 
 // swagger-ui-express for API endpoint documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use((request, response, next) => {
+  const error = new Error('Not Found');
+  error.status = 404;
+  next(error);
+});
+app.use(errorHandler);
 
 app.listen(port, () => {
   debugged(`Listening from port ${port}`);
