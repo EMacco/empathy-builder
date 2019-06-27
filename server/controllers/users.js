@@ -75,7 +75,7 @@ class UserController {
         email: user.email
       };
       const token = await Token.create(payload);
-      return Response.success(res, 200, userExtractor(user, token));
+      return Response.success(res, 200, userExtractor(user, token), 'User successfully logged in');
     } catch (err) {
       if (err.isJoi && err.name === 'ValidationError') {
         return res.status(400).json({

@@ -2,7 +2,7 @@ import Response from '@helpers/Response';
 import { isNumber } from 'util';
 import models from '@models';
 
-const { MonthlyExpense } = models;
+const { MonthlyExpense, Relocation } = models;
 
 /**
  * @exports ExpensesController
@@ -78,11 +78,60 @@ class ExpensesController {
 
       return Response.success(
         res,
-        201,
+        200,
         { monthlyExpenses, totalCost },
         'Monthly budget successfully retrieved'
       );
     } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   * Create a renovatio budget
+   * @async
+   * @param  {object} req - Request object
+   * @param {object} res - Response object
+   * @param {object} next The next middleware
+   * @return {json} Returns json object
+   * @static
+   */
+  static async createRelocationBudget(req, res, next) {
+    try {
+      if (!req.body.expenses) { return Response.error(res, 400, 'Please enter relocation expenses'); }
+
+      const { id: userId } = req.decoded;
+      let expenses = JSON.parse(req.body.expenses);
+      expenses = expenses.map((expense) => {
+        const newExpense = { ...expense, userId };
+        if (!isNumber(newExpense.cost)) { throw new Error(`Cost of ${newExpense.item} should be a number`); }
+        if (!isNumber(newExpense.quantity)) { throw new Error(`Quantity of ${newExpense.item} should be a number`); }
+        if (newExpense.quantity < 1) { throw new Error(`Quantity of ${newExpense.item} should be greater than 0`); }
+        newExpense.cost = Number(newExpense.cost) * Number(newExpense.quantity);
+        delete newExpense.quantity;
+        return newExpense;
+      });
+
+      await Relocation.destroy({ where: { userId } });
+      await Relocation.bulkCreate(expenses);
+      const relocationExpenses = await Relocation.findAll({
+        where: { userId },
+        attributes: ['item', 'cost']
+      });
+
+      const totalCost = relocationExpenses.reduce(
+        (partialSum, a) => partialSum + Number(a.get().cost),
+        0
+      );
+
+      return Response.success(
+        res,
+        201,
+        { relocationExpenses, totalCost },
+        'Relocation budget successfully saved'
+      );
+    } catch (err) {
+      if (err.message.includes('JSON')) { return Response.error(res, 400, 'Please enter valid data!'); }
       next(err);
     }
   }
