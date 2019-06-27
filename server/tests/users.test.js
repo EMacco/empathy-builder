@@ -396,3 +396,38 @@ describe('TESTS TO CREATE RELOCATION BUDGET', () => {
     }
   });
 });
+
+describe('TESTS TO FETCH RELOCATION BUDGET', () => {
+  it('should return relocation budget with response 200', (done) => {
+    try {
+      chai.request(app)
+        .get('/api/v1/expenses/relocation')
+        .set('Authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.payload).to.be.an('object');
+          expect(res.body).to.have.property('status');
+          expect(res.body.message).to.equal('Relocation budget successfully retrieved');
+          done();
+        });
+    } catch (err) {
+      throw err.message;
+    }
+  });
+
+  it('should return invalid token', (done) => {
+    try {
+      chai.request(app)
+        .get('/api/v1/expenses/relocation')
+        .set('Authorization', 'invalidToken')
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.errors).to.be.an('object');
+          expect(res.body.errors.global).to.eql('Invalid token supplied: format Bearer <token>');
+          done();
+        });
+    } catch (err) {
+      throw err.message;
+    }
+  });
+});
