@@ -10,5 +10,6 @@ budgetRouter.post('/monthly', Token.authorize, trim, ExpensesController.createMo
 budgetRouter.get('/monthly', Token.authorize, ExpensesController.fetchMonthlyBudget);
 budgetRouter.post('/relocation', Token.authorize, trim, ExpensesController.createRelocationBudget);
 budgetRouter.get('/relocation', Token.authorize, ExpensesController.fetchRelocationBudget);
+budgetRouter.get('/budget', Token.authorize, ExpensesController.fetchBudget);
 
 export default budgetRouter;
