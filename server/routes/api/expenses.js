@@ -9,5 +9,6 @@ const budgetRouter = express.Router();
 budgetRouter.post('/monthly', Token.authorize, trim, ExpensesController.createMonthlyBudget);
 budgetRouter.get('/monthly', Token.authorize, ExpensesController.fetchMonthlyBudget);
 budgetRouter.post('/relocation', Token.authorize, trim, ExpensesController.createRelocationBudget);
+budgetRouter.get('/relocation', Token.authorize, ExpensesController.fetchRelocationBudget);
 
 export default budgetRouter;

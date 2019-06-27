@@ -135,6 +135,38 @@ class ExpensesController {
       next(err);
     }
   }
+
+  /**
+   * Fetch renovation budget
+   * @async
+   * @param  {object} req - Request object
+   * @param {object} res - Response object
+   * @param {object} next The next middleware
+   * @return {json} Returns json object
+   * @static
+   */
+  static async fetchRelocationBudget(req, res, next) {
+    try {
+      const relocationExpenses = await Relocation.findAll({
+        where: { userId: req.decoded.id },
+        attributes: ['item', 'cost']
+      });
+
+      const totalCost = relocationExpenses.reduce(
+        (partialSum, a) => partialSum + Number(a.get().cost),
+        0
+      );
+
+      return Response.success(
+        res,
+        200,
+        { relocationExpenses, totalCost },
+        'Relocation budget successfully retrieved'
+      );
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default ExpensesController;
